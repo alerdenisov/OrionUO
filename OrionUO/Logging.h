@@ -7,14 +7,19 @@
 
 void LogDump(FILE *fp, uint8_t *buf, int size);
 
-#define LOG_LEVEL 1
+#define LOG_LEVEL 2
 
-#if LOG_LEVEL
+#if LOG_LEVEL == 1
 #define INITLOGGER(path)
 #define LOG(...) fprintf(stdout, " LOG: " __VA_ARGS__)
 #define LOG_DUMP(...)      //LogDump(stdout, __VA_ARGS__)
 #define SAFE_LOG_DUMP(...) //LogDump(stdout, __VA_ARGS__)
-#else                      //LOG_LEVEL == 0
+#elif LOG_LEVEL == 2
+#define INITLOGGER(path) g_Logger.Init(path);
+#define LOG(...) g_Logger.Print(__VA_ARGS__) //fprintf(stdout, " LOG: " __VA_ARGS__)
+#define LOG_DUMP(...)                        //LogDump(stdout, __VA_ARGS__)
+#define SAFE_LOG_DUMP(...)                   //LogDump(stdout, __VA_ARGS__)
+#else                                        //LOG_LEVEL == 0
 #define INITLOGGER(path)
 #define LOG(...)
 #define LOG_DUMP(...)
